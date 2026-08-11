@@ -17,6 +17,7 @@ function Header() {
   return <header>Header</header>;
 }
 
+//deneme
 function Main() {
   return <main></main>;
 }
