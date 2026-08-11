@@ -9,6 +9,7 @@ function App() {
   const trendingQuery = useQuery({
     queryKey: ["gifs", "trending"],
     queryFn: fetchTrendingApi,
+    enabled: !searchTerm,
     retry: false,
     refetchOnWindowFocus: false,
     staleTime: 60_000,
@@ -23,7 +24,7 @@ function App() {
     staleTime: 60_000,
   });
 
-  const activeQuery = searchTerm ? querySearch : query;
+  const activeQuery = searchTerm ? querySearch : trendingQuery;
 
   return (
     <Main>
