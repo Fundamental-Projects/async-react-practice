@@ -5,7 +5,7 @@ async function requestGiphy(endpoint, params = {}) {
   const url = new URL(endpoint, BASE_URL);
 
   url.searchParams.set("api_key", API_KEY);
-  url.searchParams.set("limit", "10");
+  url.searchParams.set("limit", "20");
 
   Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
 
@@ -30,12 +30,5 @@ function fetchSearchApi(searchTerm) {
     q: searchTerm,
   });
 }
-
-async function inspectData() {
-  const data = await fetchTrendingApi();
-  console.log(data);
-}
-
-inspectData();
 
 export { fetchTrendingApi, fetchSearchApi };

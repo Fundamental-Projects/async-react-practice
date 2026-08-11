@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchTrendingApi, fetchSearchApi } from "./services/fetchApi";
 import { layoutStyles as layout } from "./styles/layoutStyles";
-
-// fetchTrendingApi();
+import { useState } from "react";
 
 function App() {
+  const query = useQuery({ queryKey: ["gifs", "trending"], queryFn: fetchTrendingApi });
+
+  const querySearch = useQuery({ queryKey: ["gifs", "search"], queryFn: fetchSearchApi });
   return (
     <Main>
       <Header />
-      <Search />
-      <GiftRender />
+      <Search query={querySearch} />
+      <GiftList query={query} />
     </Main>
   );
 }
@@ -35,13 +37,22 @@ function Main({ children }) {
   );
 }
 
-function Search() {
+function Search({ query }) {
+  const [search, setSearch] = useState("");
+
+  function handleSubmit() {
+    event.preventDefault();
+  }
+
   return (
-    <form className={layout.responsiveRow}>
+    <form className={layout.responsiveRow} onSubmit={handleSubmit}>
       <input
         type="search"
         placeholder="Search your gifts..."
-        className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 outline-none focus:border-indigo-500"
+        className="w-full rounded-lg border border-slate-300
+        bg-white px-4 py-2 outline-none focus:border-indigo-500"
+        onChange={(e) => setSearch(e.target)}
+        value={search}
       />
 
       <button
@@ -54,23 +65,16 @@ function Search() {
   );
 }
 
-function GiftList() {
-  const query = useQuery({ queryKey: ["gifs", "trending"], queryFn: fetchTrendingApi });
-  console.log(fetchTrendingApi);
-
+function GiftList({ query }) {
   return (
     <section>
       <div>
         {query.data?.data.map((gifs) => (
-          <img key={gifs.id} src={gifs.url} alt={gifs.title} />
+          <img key={gifs.id} src={gifs.images.original.url} alt={gifs.title} />
         ))}
       </div>
     </section>
   );
-}
-
-function GiftRender() {
-  return <GiftList />;
 }
 
 export default App;
