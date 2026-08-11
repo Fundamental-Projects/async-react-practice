@@ -22,6 +22,7 @@ async function requestGiphy(endpoint, params = {}) {
     return data;
   } catch (error) {
     console.error("Hata sebebi:", error);
+    throw error;
   }
 }
 

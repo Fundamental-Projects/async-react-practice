@@ -6,7 +6,13 @@ import { useState } from "react";
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const query = useQuery({ queryKey: ["gifs", "trending"], queryFn: fetchTrendingApi });
+  const query = useQuery({
+    queryKey: ["gifs", "trending"],
+    queryFn: fetchTrendingApi,
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: 60_000,
+  });
 
   const querySearch = useQuery({
     queryKey: ["gifs", "search", searchTerm],
@@ -14,11 +20,13 @@ function App() {
     enabled: Boolean(searchTerm),
   });
 
+  const activeQuery = searchTerm ? querySearch : query;
+
   return (
     <Main>
       <Header />
       <Search onSearch={setSearchTerm} />
-      <GiftList query={query} />
+      <GiftList query={activeQuery} />
     </Main>
   );
 }
