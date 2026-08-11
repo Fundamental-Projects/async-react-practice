@@ -4,13 +4,20 @@ import { layoutStyles as layout } from "./styles/layoutStyles";
 import { useState } from "react";
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const query = useQuery({ queryKey: ["gifs", "trending"], queryFn: fetchTrendingApi });
 
-  const querySearch = useQuery({ queryKey: ["gifs", "search"], queryFn: fetchSearchApi });
+  const querySearch = useQuery({
+    queryKey: ["gifs", "search", searchTerm],
+    queryFn: () => fetchSearchApi(searchTerm),
+    enabled: Boolean(searchTerm),
+  });
+
   return (
     <Main>
       <Header />
-      <Search query={querySearch} />
+      <Search onSearch={setSearchTerm} />
       <GiftList query={query} />
     </Main>
   );
@@ -37,11 +44,13 @@ function Main({ children }) {
   );
 }
 
-function Search({ query }) {
+function Search({ onSearch }) {
   const [search, setSearch] = useState("");
 
-  function handleSubmit() {
+  function handleSubmit(event) {
     event.preventDefault();
+
+    onSearch(search.trim());
   }
 
   return (
@@ -51,7 +60,7 @@ function Search({ query }) {
         placeholder="Search your gifts..."
         className="w-full rounded-lg border border-slate-300
         bg-white px-4 py-2 outline-none focus:border-indigo-500"
-        onChange={(e) => setSearch(e.target)}
+        onChange={(event) => setSearch(event.target.value)}
         value={search}
       />
 
