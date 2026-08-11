@@ -2,6 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTrendingApi, fetchSearchApi } from "./services/fetchApi";
 import { layoutStyles as layout } from "./styles/layoutStyles";
 
+fetchTrendingApi();
+console.log(fetchSearchApi());
+
 function App() {
   return (
     <Main>

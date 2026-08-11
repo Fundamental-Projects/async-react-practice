@@ -14,14 +14,14 @@ async function requestGiphy(endpoint, params = {}) {
   });
 
   const response = await fetch(request);
+  const data = await response.json();
 
   if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-  return response.json();
+  return data;
 }
 
 function fetchTrendingApi() {
-  console.log(requestGiphy("trending"));
   return requestGiphy("trending");
 }
 
