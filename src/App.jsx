@@ -1,8 +1,24 @@
 import react from "react";
 import { fetchApi, fetchSearchApi } from "./services/fetchApi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
-  return <div></div>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Header />
+      <Main />
+    </QueryClientProvider>
+  );
+}
+
+function Header() {
+  return <header>Header</header>;
+}
+
+function Main() {
+  return <main></main>;
 }
 
 export default App;
