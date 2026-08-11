@@ -31,4 +31,11 @@ function fetchSearchApi(searchTerm) {
   });
 }
 
+async function inspectData() {
+  const data = await fetchTrendingApi();
+  console.log(data);
+}
+
+inspectData();
+
 export { fetchTrendingApi, fetchSearchApi };

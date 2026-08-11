@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTrendingApi, fetchSearchApi } from "./services/fetchApi";
 import { layoutStyles as layout } from "./styles/layoutStyles";
 
-fetchTrendingApi();
-console.log(fetchSearchApi());
+// fetchTrendingApi();
 
 function App() {
   return (
     <Main>
       <Header />
       <Search />
+      <GiftRender />
     </Main>
   );
 }
@@ -58,7 +58,19 @@ function GiftList() {
   const query = useQuery({ queryKey: ["gifs", "trending"], queryFn: fetchTrendingApi });
   console.log(fetchTrendingApi);
 
-  return {};
+  return (
+    <section>
+      <div>
+        {query.data?.data.map((gifs) => (
+          <img key={gifs.id} src={gifs.url} alt={gifs.title} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function GiftRender() {
+  return <GiftList />;
 }
 
 export default App;
