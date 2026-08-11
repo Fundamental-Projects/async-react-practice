@@ -6,7 +6,7 @@ import { useState } from "react";
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const query = useQuery({
+  const trendingQuery = useQuery({
     queryKey: ["gifs", "trending"],
     queryFn: fetchTrendingApi,
     retry: false,
@@ -18,6 +18,9 @@ function App() {
     queryKey: ["gifs", "search", searchTerm],
     queryFn: () => fetchSearchApi(searchTerm),
     enabled: Boolean(searchTerm),
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: 60_000,
   });
 
   const activeQuery = searchTerm ? querySearch : query;
@@ -86,8 +89,8 @@ function GiftList({ query }) {
   return (
     <section>
       <div>
-        {query.data?.data.map((gifs) => (
-          <img key={gifs.id} src={gifs.images.original.url} alt={gifs.title} />
+        {query.data?.data.map((gif) => (
+          <img key={gif.id} src={gif.images.original.url} alt={gif.title} />
         ))}
       </div>
     </section>
