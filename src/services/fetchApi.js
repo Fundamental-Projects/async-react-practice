@@ -21,6 +21,7 @@ async function requestGiphy(endpoint, params = {}) {
 }
 
 function fetchTrendingApi() {
+  console.log(requestGiphy("trending"));
   return requestGiphy("trending");
 }
 
